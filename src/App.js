@@ -24,22 +24,52 @@ import { useColorPickerState } from "@elastic/eui/lib/services";
 import { useLocalStorage } from "react-use";
 import { EuiSwitch } from "@elastic/eui";
 import { EuiImage } from "@elastic/eui";
-import { EuiButtonIcon } from "@elastic/eui";
+
+function useLocalStorageColorPickerState(storageKey, initialValue) {
+  const [localStorageColor, setLocalStorageColor] = useLocalStorage(
+    storageKey,
+    initialValue
+  );
+  const [color, setColor, errors] = useColorPickerState(localStorageColor);
+
+  const updateColor = function (nextColor, ref) {
+    setLocalStorageColor(nextColor);
+    setColor(nextColor, ref);
+  };
+
+  return [color, updateColor, errors];
+}
 
 function App() {
-  const [textSize, setTextSize] = useState("m");
-  const [textColor, setTextColor, textColorErrors] = useColorPickerState(
-    "#333333"
-  );
+  const [textSize, setTextSize] = useLocalStorage("textSize", "m");
+  const [
+    textColor,
+    setTextColor,
+    textColorErrors,
+  ] = useLocalStorageColorPickerState("textColor", "#333333");
   const [
     highlightColor,
     setHighlightColor,
     highlightColorErrors,
-  ] = useColorPickerState("#D36086");
-  const [highlightSpeed, setHighlightSpeed] = useState(0.25);
+  ] = useLocalStorageColorPickerState("highlightColor", "#D36086");
+  const [highlightSpeed, setHighlightSpeed] = useLocalStorage(
+    "highlightSpeed",
+    "0.25",
+    {
+      serializer: (value) => value.toString(),
+      deserializer: (value) => parseFloat(value),
+    }
+  );
   const [isAnimating, setIsAnimating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [autoAdvance, setAutoAdvance] = useState(false);
+  const [autoAdvance, setAutoAdvance] = useLocalStorage(
+    "autoAdvance",
+    "false",
+    {
+      serializer: (value) => value.toString(),
+      deserializer: (value) => value === "true",
+    }
+  );
 
   const [storyText, setStoryText] = useLocalStorage(
     "storyText",
@@ -59,6 +89,8 @@ function App() {
     reader.onloadend = () => setStoryImage(reader.result);
     reader.readAsDataURL(file);
   };
+
+  console.log({ highlightSpeed });
 
   return (
     <div className="App">
