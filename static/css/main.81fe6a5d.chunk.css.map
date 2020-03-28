@@ -1,0 +1,1 @@
+{"version":3,"sources":["App.css"],"names":[],"mappings":"AAAA,KACE,gBAAiB,CACjB,aACF,CACA,SACE,iBACF,CAEA,mBACE,SACF","file":"main.81fe6a5d.chunk.css","sourcesContent":[".App {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.ra-word {\n  margin-right: 0.5em;\n}\n\n.ra-word-highlight {\n  color: red;\n}\n"]}
