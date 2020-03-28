@@ -1,0 +1,11 @@
+.App {
+  width: 1200px;
+  margin: 0 auto;
+}
+.ra-word {
+  margin-right: 0.5em;
+}
+
+.ra-word-highlight {
+  color: red;
+}
