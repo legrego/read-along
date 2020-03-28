@@ -5,6 +5,7 @@ import { Sentence } from "./Sentence";
 export function Story({
   storyText,
   animating,
+  autoAdvance,
   highlightSpeed,
   highlightColor,
   textColor,
@@ -39,6 +40,7 @@ export function Story({
       {sentences.map((sentence, index) => (
         <Sentence
           animating={index === animatingIndex}
+          autoAdvance={autoAdvance}
           onAnimateComplete={onAnimateComplete(index)}
           textColor={textColor}
           highlightColor={highlightColor}
